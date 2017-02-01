@@ -19,12 +19,13 @@ def click_on_element(element_id):
     browser.find_element_by_id(element_id).click()
 
 def retry_for_slow_elements(f, args):
+    retry_rate = 1
     for i in range(0,25):
         try:
             f(args)
         except ElementNotVisibleException:
-            print("Couldn't find element, will retry in 5s")
-            time.sleep(1)
+            print("Couldn't find element, will retry in %d seconds" % retry_rate)
+            time.sleep(retry_rate)
             continue
         break
 
