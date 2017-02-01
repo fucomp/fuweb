@@ -8,6 +8,25 @@ import names
 import time
 import random
 import string
+import argparse
+
+parser = argparse.ArgumentParser(description="Read an article on The Times website")
+parser.add_argument('URL', type=str, help='URL of the page to read')
+args = parser.parse_args()
+url = args.URL
+
+def click_on_element(element_id):
+    browser.find_element_by_id(element_id).click()
+
+def retry_for_slow_elements(f, args):
+    for i in range(0,25):
+        try:
+            f(args)
+        except ElementNotVisibleException:
+            print("Couldn't find element, will retry in 5s")
+            time.sleep(1)
+            continue
+        break
 
 def randomword(length):
     return ''.join(random.choice(string.lowercase) for i in range(length))
@@ -23,21 +42,7 @@ pwd = os.path.dirname(os.path.realpath(__file__))
 path_to_chromedriver = pwd + '/chromedriver'
 browser = webdriver.Chrome(executable_path = path_to_chromedriver)
 
-url = "http://www.thetimes.co.uk/edition/news/rip-off-rail-fares-scrapped-3vdkqtckw"
 browser.get(url)
-
-def click_on_element(element_id):
-    browser.find_element_by_id(element_id).click()
-
-def retry_for_slow_elements(f, args):
-    for i in range(0,5):
-        try:
-            f(args)
-        except ElementNotVisibleException:
-            print("Couldn't find element, will retry in 5s")
-            time.sleep(5)
-            continue
-        break
 
 retry_for_slow_elements(click_on_element, "popup-get-access")
 time.sleep(5)
