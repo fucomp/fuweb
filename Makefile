@@ -1,4 +1,4 @@
-DRIVER_PATH:="https://chromedriver.storage.googleapis.com/2.27/"
+DRIVER_PATH:="https://chromedriver.storage.googleapis.com/2.41/"
 
 OS=$(shell uname)
 ifeq "$(OS)" "Darwin"

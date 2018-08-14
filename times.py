@@ -15,8 +15,8 @@ parser.add_argument('URL', type=str, help='URL of the page to read')
 args = parser.parse_args()
 url = args.URL
 
-def click_on_element(element_id):
-    browser.find_element_by_id(element_id).click()
+def click_on_element(element_css_selector):
+    browser.find_element_by_css_selector(element_css_selector).click()
 
 def retry_for_slow_elements(f, args):
     retry_rate = 1
@@ -45,7 +45,7 @@ browser = webdriver.Chrome(executable_path = path_to_chromedriver)
 
 browser.get(url)
 
-retry_for_slow_elements(click_on_element, "popup-get-access")
+retry_for_slow_elements(click_on_element, ".ArticleMarketing-button")
 time.sleep(5)
 browser.find_element_by_id("firstName").send_keys(firstname)
 browser.find_element_by_id("lastName").send_keys(lastname)
